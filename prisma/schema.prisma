@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,28 +14,28 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  clerkUserId   String    @unique // clerk user id
-  email         String    @unique
-  name          String?
-  imageUrl      String?
-  industry      String?    // Combined industry-subindustry (e.g., "tech-software-development")
+  id             String       @id @default(uuid())
+  clerkUserId    String       @unique   //clerk user id
+  email          String       @unique
+  name           String?
+  imageUrl       String?
+  industry       String?      // Combined industry-subindustry (e.g. "tech-software-development)
   industryInsight IndustryInsight? @relation(fields: [industry], references: [industry])
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
   // Profile fields
-  bio           String?
-  experience    Int?      // Years of experience
-  
+  bio            String?
+  experience     Int?        // Years of experience
+
   // Relations
-  skills        String[]  // Array of skills
-  assessments   Assessment[]
-  resume        Resume?
-  coverLetter   CoverLetter[]
+  skills         String[]    // Array of skills
+  assessments    Assessment[]
+  resume         Resume?
+  coverLetter    CoverLetter[]
 }
 
-model Assessment {
+model Assessment{
   id            String    @id @default(cuid())
   userId        String
   user          User      @relation(fields: [userId], references: [id])
@@ -43,7 +49,7 @@ model Assessment {
   @@index([userId])
 }
 
-model Resume {
+model Resume{
   id          String    @id @default(cuid())
   userId      String    @unique    // One resume per user
   user        User      @relation(fields: [userId], references: [id])
@@ -54,7 +60,7 @@ model Resume {
   updatedAt   DateTime  @updatedAt
 }
 
-model CoverLetter {
+model CoverLetter{
   id              String    @id @default(cuid())
   userId          String
   user            User      @relation(fields: [userId], references: [id])
@@ -69,8 +75,7 @@ model CoverLetter {
   @@index([userId])
 }
 
-// Combined Industry Trends and Salary Insights
-model IndustryInsight {
+model IndustryInsight{
   id            String    @id @default(cuid())
   industry      String    @unique  // The industry this data belongs to (e.g., "tech-software-development")
   
@@ -82,11 +87,11 @@ model IndustryInsight {
   
   // Industry trends
   growthRate    Float     // Industry growth rate
-  demandLevel   String    // "High", "Medium", "Low"
+  demandLevel   DemandLevel    // "High", "Medium", "Low"
   topSkills     String[]  // Most in-demand skills
   
   // Market conditions
-  marketOutlook String    // "Positive", "Neutral", "Negative"
+  marketOutlook MarketOutlook    // "Positive", "Neutral", "Negative"
   keyTrends     String[]  // Array of current industry trends
   
   // Learning suggestions
@@ -96,4 +101,16 @@ model IndustryInsight {
   nextUpdate    DateTime  // Scheduled update time
 
   @@index([industry])
+}
+
+enum DemandLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum MarketOutlook {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
 }
