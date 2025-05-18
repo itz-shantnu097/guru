@@ -1,14 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
-import HeroSection from "./components/hero";
-import { features } from "@/data/features";
-import { howItWorks } from "@/data/howItWorks";
-import { testimonial } from "@/data/testimonial";
 import Image from "next/image";
-import { faqs } from "@/data/faqs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import HeroSection from "@/components/hero";
+import { features } from "@/data/features";
+import { howItWorks } from "@/data/howItWorks";
+import { testimonial } from "@/data/testimonials";
+import { faqs } from "@/data/faq";
 
 export default function Home() {
   return (
